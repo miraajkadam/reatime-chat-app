@@ -1,7 +1,9 @@
-import express, { Express, Request, Response } from 'express'
 import cors from 'cors'
-import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import express, { Express, Request, Response } from 'express'
+import mongoose from 'mongoose'
+import GroupsController from './routes/Groups'
+import UsersController from './routes/Users'
 
 dotenv.config()
 
@@ -25,6 +27,9 @@ const uri: string = process.env.MONGODB_URI || 'mongodb://localhost:27017/realti
 app.get('/health', (_req: Request, res: Response) => {
   res.status(200).send('Server is running')
 })
+
+app.use('/api/users', UsersController)
+app.use('/api/groups', GroupsController)
 
 const PORT: string | number = process.env.PORT || 3000
 
