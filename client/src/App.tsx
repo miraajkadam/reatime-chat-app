@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Group from './routes/Group'
+import Groups from './routes/Groups'
+import Root from './routes/Root'
+import Users from './routes/Users'
+import Users2 from './routes/Users2'
+import AddUsersToGroup from './routes/AddUsersToGroup'
+import RemoveUsersFromGroup from './routes/RemoveUsersFromGroup'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+  },
+  {
+    path: '/users',
+    element: <Users />,
+  },
+  {
+    path: '/groups',
+    element: <Groups />,
+  },
+  {
+    path: '/groups/:groupId',
+    element: <Group />,
+  },
+  {
+    path: '/groups/:groupId/users',
+    element: <Users2 />,
+  },
+  {
+    path: '/groups/:groupId/users/add',
+    element: <AddUsersToGroup />,
+  },
+  {
+    path: '/groups/:groupId/users/remove',
+    element: <RemoveUsersFromGroup />,
+  },
+])
+
+const App = () => {
+  return <RouterProvider router={router} />
 }
 
-export default App;
+export default App

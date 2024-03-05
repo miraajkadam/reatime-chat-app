@@ -1,5 +1,6 @@
 import { Router, type Request } from 'express'
 import Group from '../models/Group'
+import User from '../models/User'
 
 const GroupsController = Router()
 
@@ -11,7 +12,6 @@ GroupsController.get('/', async (req, res) => {
     {},
     {
       name: 1,
-      users: 1,
     }
   )
 
@@ -30,7 +30,6 @@ GroupsController.get('/:id', async (req, res) => {
 
   const group = await Group.findById(id, {
     name: 1,
-    users: 1,
     _id: 0,
   })
 
@@ -39,6 +38,51 @@ GroupsController.get('/:id', async (req, res) => {
   }
 
   return res.status(200).send({ message: 'Group get with id successfully', data: group })
+})
+
+/**
+ * Gets a group by ID
+ */
+GroupsController.get('/:id/users', async (req, res) => {
+  const { id } = req.params
+  const negation = req.query.negation === 'true' ? true : false
+
+  if (!id) {
+    return res.status(400).send({ message: 'Please enter a group ID' })
+  }
+
+  const group = await Group.findById(id, {
+    users: 1,
+    _id: 0,
+  })
+
+  if (!group) {
+    return res.status(404).send({ message: 'Group not found' })
+  }
+
+  let usersMap
+
+  if (negation) {
+    usersMap = await User.find(
+      {
+        _id: { $nin: group.users },
+      },
+      {
+        name: 1,
+      }
+    ).exec()
+  } else {
+    usersMap = await Promise.all(
+      group.users.map(
+        async userId =>
+          await User.findById(userId, {
+            name: 1,
+          })
+      )
+    )
+  }
+
+  return res.status(200).send({ message: 'Group get with id successfully', data: usersMap })
 })
 
 /**
