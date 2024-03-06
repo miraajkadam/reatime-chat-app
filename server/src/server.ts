@@ -2,6 +2,8 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import express, { Express, Request, Response } from 'express'
 import mongoose from 'mongoose'
+
+import AuthController from './routes/Auth'
 import GroupsController from './routes/Groups'
 import UsersController from './routes/Users'
 
@@ -30,6 +32,7 @@ app.get('/health', (_req: Request, res: Response) => {
 
 app.use('/api/users', UsersController)
 app.use('/api/groups', GroupsController)
+app.use('/api/auth', AuthController)
 
 const PORT: string | number = process.env.PORT || 5000
 

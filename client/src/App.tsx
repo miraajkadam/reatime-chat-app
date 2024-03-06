@@ -1,11 +1,12 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { AuthProvider } from './hooks/use-auth'
+import AddUsersToGroup from './routes/AddUsersToGroup'
 import Group from './routes/Group'
 import Groups from './routes/Groups'
+import RemoveUsersFromGroup from './routes/RemoveUsersFromGroup'
 import Root from './routes/Root'
 import Users from './routes/Users'
 import Users2 from './routes/Users2'
-import AddUsersToGroup from './routes/AddUsersToGroup'
-import RemoveUsersFromGroup from './routes/RemoveUsersFromGroup'
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,11 @@ const router = createBrowserRouter([
 ])
 
 const App = () => {
-  return <RouterProvider router={router} />
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  )
 }
 
 export default App
