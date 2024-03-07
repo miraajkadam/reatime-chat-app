@@ -2,14 +2,20 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import express, { Express, Request, Response } from 'express'
 import mongoose from 'mongoose'
+import { Server } from 'socket.io'
+import { createServer } from 'http'
 
 import AuthController from './routes/Auth'
 import GroupsController from './routes/Groups'
 import UsersController from './routes/Users'
+import { connectSocket } from '../socket/socketConnection'
 
 dotenv.config()
 
 const app: Express = express()
+const server = createServer(app)
+
+connectSocket(server)
 
 app.use(cors())
 app.use(express.json())
@@ -36,6 +42,6 @@ app.use('/api/auth', AuthController)
 
 const PORT: string | number = process.env.PORT || 5000
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on PORT: ${PORT}`)
 })
