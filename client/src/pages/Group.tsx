@@ -1,7 +1,7 @@
-import { Fragment, useContext, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { socket } from '../socket/socketConnection'
 import { useAuth } from '../hooks/use-auth'
+import { socket } from '../socket/socketConnection'
 
 const Group = () => {
   const [group, setGroup] = useState<{ name: string }>()
@@ -33,7 +33,14 @@ const Group = () => {
   }, [])
 
   const handleSendMessage = () => {
-    console.log(textMessage)
+    const data = {
+      user_name: user?.name,
+      user_id: user?.id,
+      room_code: groupId,
+      message: textMessage,
+    }
+
+    socket.emit('send_message_event', data)
   }
 
   return (

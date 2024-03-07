@@ -1,5 +1,6 @@
 import { IncomingMessage, Server, ServerResponse } from 'http'
 import { Server as SocketServer } from 'socket.io'
+import { connection, send_message_event } from './socketEvents'
 // import { onGetRoomUsersEvent, onJoinRoomEvent } from './SocketEvents'
 
 export const connectSocket = (server: Server<typeof IncomingMessage, typeof ServerResponse>) => {
@@ -14,7 +15,7 @@ export const connectSocket = (server: Server<typeof IncomingMessage, typeof Serv
     maxHttpBufferSize: 100 * 1024 * 1024,
   })
 
-  io.on('connection', socket => {
+  io.on(connection, socket => {
     console.log(`A user connected having ID : ${socket.id}`)
 
     // joining the room
@@ -23,10 +24,12 @@ export const connectSocket = (server: Server<typeof IncomingMessage, typeof Serv
     // })
 
     // message
-    socket.on('send_message_event', data => {
+    socket.on(send_message_event, data => {
+      console.log(data)
+
       // if (data.TYPE === 'MESSAGE') {
       // broadcasts the message to all clients connected to the specified room, except the sender.
-      socket.to(data.ROOM_CODE).emit('receiveMessageEvent', data)
+      // socket.to(data.ROOM_CODE).emit('receiveMessageEvent', data)
       // }
       //  else {
       //   // call the file upload function
