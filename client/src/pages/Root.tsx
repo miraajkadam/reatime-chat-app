@@ -1,15 +1,18 @@
 import { Fragment } from 'react/jsx-runtime'
 import { useAuth } from '../hooks/use-auth'
 import { useState } from 'react'
+import { Navigate } from 'react-router-dom'
 
 const Root = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
-  const { login } = useAuth()
+  const { login, authed } = useAuth()
 
   return (
     <Fragment>
+      {authed && <Navigate to='/groups' replace={true} />}
+
       <h1>Welcome to Realtime Chat Application</h1>
 
       <h2>Please login to continue</h2>
@@ -43,7 +46,6 @@ const Root = () => {
           type='submit'
           value='Login'
           onClick={() => {
-            console.log('ADSJADN')
             login(email, password)
           }}
         />

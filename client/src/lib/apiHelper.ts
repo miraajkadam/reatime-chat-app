@@ -1,6 +1,14 @@
 import ApiResponse from '@server/models/ApiResponse'
 
-export const sendRequest = async <T>(api: string, method: MethodType, body?: any) => {
+export const sendRequest = async <T>(
+  api: string,
+  method: MethodType,
+  body?: any
+): Promise<{
+  message: string
+  data?: T
+  isSuccess: boolean
+}> => {
   const response = await fetch(cleanUrl(`${process.env.REACT_APP_SERVER_BASE_URL}/api/${api}`), {
     method,
     headers: { 'Content-Type': 'application/json' },

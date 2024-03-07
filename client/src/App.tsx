@@ -1,12 +1,12 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { AuthProvider } from './hooks/use-auth'
-import AddUsersToGroup from './routes/AddUsersToGroup'
-import Group from './routes/Group'
-import Groups from './routes/Groups'
-import RemoveUsersFromGroup from './routes/RemoveUsersFromGroup'
-import Root from './routes/Root'
-import Users from './routes/Users'
-import Users2 from './routes/Users2'
+import AddUsersToGroup from './pages/AddUsersToGroup'
+import Group from './pages/Group'
+import Groups from './pages/Groups'
+import RemoveUsersFromGroup from './pages/RemoveUsersFromGroup'
+import Root from './pages/Root'
+import Users from './pages/Users'
+import Users2 from './pages/Users2'
 
 const router = createBrowserRouter([
   {

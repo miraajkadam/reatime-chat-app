@@ -1,4 +1,5 @@
 import { Router, type Request, type Response } from 'express'
+import { LoginApiPayload, LoginApiResponse } from '../types/AuthTypes'
 import ApiResponse from '../models/ApiResponse'
 import User from '../models/User'
 
@@ -10,25 +11,36 @@ const AuthController = Router()
 AuthController.post(
   '/login',
   async (
-    req: Request<null, ApiResponse<boolean>, { email: string; password: string }, null>,
-    res: Response<ApiResponse<boolean>>
+    req: Request<null, ApiResponse<LoginApiResponse>, LoginApiPayload, null>,
+    res: Response<ApiResponse<LoginApiResponse>>
   ) => {
-    const apiResponse = new ApiResponse<boolean>()
+    const apiResponse = new ApiResponse<LoginApiResponse>()
 
     const { email, password } = req.body
 
-    const user = await User.countDocuments({ email, password }).exec()
+    const user = await User.findOne<{
+      id: string
+      email: string
+      name: string
+    }>(
+      { email, password },
+      {
+        id: '$_id',
+        _id: 0,
+        email: 1,
+        name: 1,
+      }
+    )
 
     if (user) {
       apiResponse.isSuccess = true
       apiResponse.message = 'User logged in successfully'
-      apiResponse.data = true
+      apiResponse.data = user
 
       return res.status(200).send(apiResponse)
     } else {
       apiResponse.isSuccess = false
       apiResponse.message = 'Unable to login'
-      apiResponse.data = false
 
       return res.status(200).send(apiResponse)
     }
