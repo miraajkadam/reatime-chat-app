@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+
 import { useAuth } from '../hooks/use-auth'
 import { socket } from '../socket/socketConnection'
 
@@ -30,6 +31,18 @@ const Group = () => {
     socket.on('connect', () => {
       console.log('Socket connected')
     })
+
+    socket.on('receive_message_event', data => {
+      console.log('message received', data)
+    })
+
+    const data = {
+      user_name: user?.name,
+      user_id: user?.id,
+      room_code: groupId,
+    }
+
+    socket.emit('join_group_event', data)
   }, [])
 
   const handleSendMessage = () => {

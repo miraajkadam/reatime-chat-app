@@ -1,3 +1,5 @@
 export const connection = 'connection'
 export const connect = 'connect'
 export const send_message_event = 'send_message_event'
+export const receive_message_event = 'receive_message_event'
+export const join_group_event = 'join_group_event'

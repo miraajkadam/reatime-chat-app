@@ -1,6 +1,11 @@
 import { IncomingMessage, Server, ServerResponse } from 'http'
 import { Server as SocketServer } from 'socket.io'
-import { connection, send_message_event } from './socketEvents'
+import {
+  connection,
+  join_group_event,
+  receive_message_event,
+  send_message_event,
+} from './socketEvents'
 // import { onGetRoomUsersEvent, onJoinRoomEvent } from './SocketEvents'
 
 export const connectSocket = (server: Server<typeof IncomingMessage, typeof ServerResponse>) => {
@@ -19,28 +24,14 @@ export const connectSocket = (server: Server<typeof IncomingMessage, typeof Serv
     console.log(`A user connected having ID : ${socket.id}`)
 
     // joining the room
-    // socket.on('join_room_event', data => {
-    //   onJoinRoomEvent(data, socket, io)
-    // })
+    socket.on(join_group_event, data => {
+      socket.join(data.room_code)
+    })
 
     // message
     socket.on(send_message_event, data => {
-      console.log(data)
-
-      // if (data.TYPE === 'MESSAGE') {
       // broadcasts the message to all clients connected to the specified room, except the sender.
-      // socket.to(data.ROOM_CODE).emit('receiveMessageEvent', data)
-      // }
-      //  else {
-      //   // call the file upload function
-      //   fileUpload(data)
-
-      //   // call the schedule deletion function
-      //   deleteScheduler(data)
-
-      //   // broadcasts the message to all clients connected to the specified room, except the sender.
-      //   socket.to(data.ROOM_CODE).emit('receiveMessageEvent', data)
-      // }
+      socket.to(data.room_code).emit(receive_message_event, data)
     })
 
     // room user details: [user_name, user_id]
