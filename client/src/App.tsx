@@ -1,5 +1,5 @@
 import { AuthProvider } from './hooks/use-auth'
-import Router from './Router'
+import Router from './pages/Router'
 
 const App = () => (
   <AuthProvider>
