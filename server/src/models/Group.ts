@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose'
+// import { Schema, model } from 'mongoose'
 
-const GroupSchema = new Schema({ name: String, users: [String] })
+// const GroupSchema = new Schema({ name: String, users: [String] })
 
-const Group = model('Group', GroupSchema)
+// const Group = model('Group', GroupSchema)
 
-export default Group
+// export default Group

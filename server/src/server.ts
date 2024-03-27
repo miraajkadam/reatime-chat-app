@@ -2,15 +2,16 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import express, { Express, Request, Response, NextFunction } from 'express'
 import { createServer } from 'http'
-import mongoose from 'mongoose'
-
-import AuthController from './routes/Auth'
-import GroupsController from './routes/Groups'
+import { PrismaClient } from '@prisma/client'
+// import AuthController from './routes/Auth'
+// import GroupsController from './routes/Groups'
 import UsersController from './routes/Users'
 import { connectSocket } from './socket/socketConnection'
-import ApiResponse from './models/ApiResponse'
+// import ApiResponse from './models/ApiResponse'
 
 dotenv.config()
+
+const prisma = new PrismaClient()
 
 const app: Express = express()
 const server = createServer(app)
@@ -25,7 +26,8 @@ const uri: string = process.env.MONGODB_URI || 'mongodb://localhost:27017/realti
 
 ;(async () => {
   try {
-    await mongoose.connect(uri)
+    await prisma.$connect()
+
     console.log('Connected to the database')
   } catch {
     console.log('Error connecting to the database')
@@ -37,18 +39,18 @@ app.get('/health', (_req: Request, res: Response) => {
 })
 
 app.use('/api/users', UsersController)
-app.use('/api/groups', GroupsController)
-app.use('/api/auth', AuthController)
+// app.use('/api/groups', GroupsController)
+// app.use('/api/auth', AuthController)
 
-app.use((err: Error, req: Request, res: Response<ApiResponse<null>>, next: NextFunction) => {
-  console.error(err.stack)
+// app.use((err: Error, req: Request, res: Response<ApiResponse<null>>, next: NextFunction) => {
+//   console.error(err.stack)
 
-  const apiResponse = new ApiResponse<null>()
-  apiResponse.isSuccess = false
-  apiResponse.message = `${err.name}, ${err.message}`
+//   const apiResponse = new ApiResponse<null>()
+//   apiResponse.isSuccess = false
+//   apiResponse.message = `${err.name}, ${err.message}`
 
-  res.status(500).send(apiResponse)
-})
+//   res.status(500).send(apiResponse)
+// })
 
 const PORT: string | number = process.env.PORT || 5000
 

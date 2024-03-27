@@ -1,7 +1,11 @@
-import { Schema, model } from 'mongoose'
+export default class User {
+  email: string
+  name: string
+  password: string
 
-const UserSchema = new Schema({ name: String, email: String, password: String })
-
-const User = model('User', UserSchema)
-
-export default User
+  constructor(email: string, name: string, password: string) {
+    this.email = email
+    this.name = name
+    this.password = password
+  }
+}
