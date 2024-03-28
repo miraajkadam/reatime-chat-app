@@ -1,13 +1,11 @@
+import { PrismaClient } from '@prisma/client'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import express, { Express, Request, Response, NextFunction } from 'express'
+import express, { Express, type Request, type Response } from 'express'
 import { createServer } from 'http'
-import { PrismaClient } from '@prisma/client'
-// import AuthController from './routes/Auth'
-// import GroupsController from './routes/Groups'
-import UsersController from './routes/Users'
+
+import usersRouter from './routes/users.route'
 import { connectSocket } from './socket/socketConnection'
-// import ApiResponse from './models/ApiResponse'
 
 dotenv.config()
 
@@ -38,7 +36,7 @@ app.get('/health', (_req: Request, res: Response) => {
   res.status(200).send('Server is running')
 })
 
-app.use('/api/users', UsersController)
+app.use('/api/users', usersRouter)
 // app.use('/api/groups', GroupsController)
 // app.use('/api/auth', AuthController)
 
