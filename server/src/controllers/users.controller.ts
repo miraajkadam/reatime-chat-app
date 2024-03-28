@@ -7,8 +7,8 @@ import {
   getAllUsersFromDb,
   getUserByIdFromDb,
   updateUserInDb,
-} from '../dtos/users.dto'
-import { ApiResponse } from '../models/ApiResponse'
+} from '@dtos/users.dto'
+import { ApiResponse } from '@models/ApiResponse'
 
 /**
  * get all users

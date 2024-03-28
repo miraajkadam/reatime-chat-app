@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import express, { Express, type Request, type Response } from 'express'
 import { createServer } from 'http'
 
-import usersRouter from './routes/users.route'
+import usersRouter from '@routes/users.route'
 import { connectSocket } from './socket/socketConnection'
 
 dotenv.config()

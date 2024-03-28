@@ -1,4 +1,7 @@
 {
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
   "compilerOptions": {
     "target": "es2016",
     "jsx": "preserve",
@@ -8,7 +11,15 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "moduleResolution": "node",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@routes/*": ["./routes/*"],
+      "@controllers/*": ["./controllers/*"],
+      "@types/*": ["./types/*"],
+      "@models/*": ["./models/*"],
+      "@dtos/*": ["./dtos/*"]
+    }
   },
   "exclude": ["node_modules", "dist", "client"]
 }

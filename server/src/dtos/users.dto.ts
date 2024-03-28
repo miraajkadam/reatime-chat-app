@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 
-import User from '../models/User'
+import User from '@models/User'
 
 const prisma = new PrismaClient()
 
