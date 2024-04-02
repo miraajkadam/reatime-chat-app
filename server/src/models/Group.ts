@@ -1,7 +1,7 @@
-// import { Schema, model } from 'mongoose'
+export default class Group {
+  name: string
 
-// const GroupSchema = new Schema({ name: String, users: [String] })
-
-// const Group = model('Group', GroupSchema)
-
-// export default Group
+  constructor(name: string) {
+    this.name = name
+  }
+}

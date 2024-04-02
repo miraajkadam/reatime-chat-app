@@ -7,6 +7,12 @@ datasource db {
   url      = "mongodb://localhost:27017/realtime-chat-app?replicaSet=rs0"
 }
 
+model groups {
+  id    String   @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  users String[] @db.ObjectId @default([])
+}
+
 model users {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   email    String @unique
