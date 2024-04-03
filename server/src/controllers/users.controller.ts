@@ -71,51 +71,6 @@ export const getUserById = async (
 }
 
 /**
- * Add a new user
- */
-export const addUser = async (
-  req: Request<
-    {},
-    ApiResponse<string>,
-    {
-      name: string
-      email: string
-      password: string
-    }
-  >,
-  res: Response<ApiResponse<string>>
-) => {
-  try {
-    const { name, email, password } = req.body
-
-    if (!name || !email || !password) {
-      return res
-        .status(403)
-        .json({ success: false, message: 'Missing email or username or password' })
-    }
-
-    const userExists = await checkIfUserExistsInDb(email)
-
-    if (userExists) {
-      return res.status(400).json({
-        success: false,
-        message: 'User already exists',
-      })
-    }
-
-    console.log(`Adding user with email id: ${email}`)
-
-    const createdUserId = await createUserInDb(email, name, password)
-
-    return res
-      .status(200)
-      .send({ message: 'User created successfully', success: true, data: createdUserId })
-  } catch (err: any) {
-    return res.status(500).json({ success: false, message: err.message, stack: err.stack })
-  }
-}
-
-/**
  * Update a user
  */
 export const updateUser = async (

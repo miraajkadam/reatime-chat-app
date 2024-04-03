@@ -4,6 +4,8 @@ import dotenv from 'dotenv'
 import express, { Express, type Request, type Response } from 'express'
 import { createServer } from 'http'
 
+import authRouter from '@routes/auth.route'
+import groupsRoutes from '@routes/groups.route'
 import usersRouter from '@routes/users.route'
 import { connectSocket } from './socket/socketConnection'
 
@@ -37,8 +39,8 @@ app.get('/health', (_req: Request, res: Response) => {
 })
 
 app.use('/api/users', usersRouter)
-// app.use('/api/groups', GroupsController)
-// app.use('/api/auth', AuthController)
+// app.use('/api/groups', groupsRoutes)
+app.use('/api/auth', authRouter)
 
 // app.use((err: Error, req: Request, res: Response<ApiResponse<null>>, next: NextFunction) => {
 //   console.error(err.stack)

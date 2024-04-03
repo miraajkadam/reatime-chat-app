@@ -1,4 +1,4 @@
-import ApiResponse from '@server/models/ApiResponse'
+import { ApiResponse } from '@server/models/ApiResponse'
 
 export const sendRequest = async <T>(
   api: string,
@@ -7,7 +7,7 @@ export const sendRequest = async <T>(
 ): Promise<{
   message: string
   data?: T
-  isSuccess: boolean
+  success: boolean
 }> => {
   const response = await fetch(cleanUrl(`${process.env.REACT_APP_SERVER_BASE_URL}/api/${api}`), {
     method,
@@ -19,12 +19,16 @@ export const sendRequest = async <T>(
     const message = 'Unable to send request, ' + response.statusText
     console.error(message)
 
-    return { message, isSuccess: false }
+    return { message, success: false }
   }
 
-  const { message, data, isSuccess } = (await response.json()) as ApiResponse<T>
+  const jsonResp = (await response.json()) as ApiResponse<T>
 
-  return { message, data, isSuccess }
+  if (jsonResp.success) {
+    return { message: jsonResp.message, data: jsonResp.data, success: jsonResp.success }
+  } else {
+    return { message: jsonResp.message, success: jsonResp.success }
+  }
 }
 
 /**

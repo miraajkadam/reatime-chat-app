@@ -1,12 +1,15 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
+import LoginButton from '../components/LoginButton'
 import Protected from '../components/Protected'
+import SignUpButton from '../components/SignUpButton'
 import { useAuth } from '../hooks/use-auth'
 import AddUsersToGroup from './AddUsersToGroup'
 import Group from './Group'
 import Groups from './Groups'
 import RemoveUsersFromGroup from './RemoveUsersFromGroup'
 import Root from './Root'
+import SignUp from './SignUp'
 import Users2 from './Users2'
 
 const Router = () => {
@@ -14,8 +17,26 @@ const Router = () => {
 
   return (
     <BrowserRouter>
+      {authed ? (
+        <div className='d-grid mt-5'>
+          <button
+            className='btn-danger'
+            onClick={() => {
+              logout()
+            }}
+          >
+            Sign out
+          </button>
+        </div>
+      ) : (
+        <>
+          <LoginButton />
+          <SignUpButton />
+        </>
+      )}
       <Routes>
         <Route path='/' element={<Root />} />
+        <Route path='/signup' element={<SignUp />} />
         <Route
           path='/groups'
           element={
@@ -66,24 +87,6 @@ const Router = () => {
           }
         />
       </Routes>
-      {authed ? (
-        <div className='d-grid mt-5'>
-          <button
-            className='btn-danger'
-            onClick={() => {
-              logout()
-            }}
-          >
-            Sign out
-          </button>
-        </div>
-      ) : (
-        <div className='d-grid mt-5'>
-          <button className='btn-dark' onClick={() => {}}>
-            Sign in
-          </button>
-        </div>
-      )}
     </BrowserRouter>
   )
 }
