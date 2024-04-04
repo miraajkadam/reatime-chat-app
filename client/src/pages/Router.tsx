@@ -6,37 +6,31 @@ import SignUpButton from '../components/SignUpButton'
 import { useAuth } from '../hooks/use-auth'
 import AddUsersToGroup from './AddUsersToGroup'
 import Group from './Group'
-import Groups from './Groups'
 import RemoveUsersFromGroup from './RemoveUsersFromGroup'
 import Root from './Root'
 import SignUp from './SignUp'
 import Users2 from './Users2'
+import AddGroup from './AddGroup'
+import Groups from './Groups'
+import Navbar from '../components/Navbar'
 
 const Router = () => {
   const { authed, logout } = useAuth()
 
   return (
     <BrowserRouter>
-      {authed ? (
-        <div className='d-grid mt-5'>
-          <button
-            className='btn-danger'
-            onClick={() => {
-              logout()
-            }}
-          >
-            Sign out
-          </button>
-        </div>
-      ) : (
-        <>
-          <LoginButton />
-          <SignUpButton />
-        </>
-      )}
+      <Navbar />
       <Routes>
         <Route path='/' element={<Root />} />
         <Route path='/signup' element={<SignUp />} />
+        <Route
+          path='/groups/add'
+          element={
+            <Protected isSignedIn={authed}>
+              <AddGroup />
+            </Protected>
+          }
+        />
         <Route
           path='/groups'
           element={
@@ -45,6 +39,7 @@ const Router = () => {
             </Protected>
           }
         />
+
         <Route
           path='/groups/:groupId'
           element={

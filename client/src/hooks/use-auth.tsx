@@ -30,29 +30,23 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<UserContext | null>(null)
 
   const login = async (email: string, password: string): Promise<void> => {
-    const { success, data } = await sendRequest<LoginApiResponse>('auth/login', MethodType.POST, {
+    const response = await sendRequest<LoginApiResponse>('auth/login', MethodType.POST, {
       email,
       password,
     })
 
-    if (!success) {
+    if (!response.success) {
       alert('Unable to login, Please check email/password')
-
-      return
+    } else {
+      setAuthed(true)
+      setUser(response.data as LoginApiResponse)
     }
-
-    setAuthed(true)
-    setUser(data as LoginApiResponse)
   }
 
   const logout = async (): Promise<void> => {
-    const { success, message, data } = await sendRequest<boolean>(
-      'auth/logout',
-      MethodType.POST,
-      null
-    )
+    const { success } = await sendRequest<boolean>('auth/logout', MethodType.POST, {})
 
-    if (!success || !data) return
+    if (!success) return
 
     console.log('The User has logged out')
     setAuthed(false)

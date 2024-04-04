@@ -1,47 +1,56 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import ListItemDecorator from '@mui/joy/ListItemDecorator'
+import { List, ListItemButton } from '@mui/material'
+import { GetAllGroupsType } from '@server/types/groups.d'
+import { MethodType, sendRequest } from 'lib/apiHelper'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Groups = () => {
   const [groups, setGroups] = useState<
     {
       name: string
-      _id: string
+      id: string
     }[]
   >([])
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     ;(async () => {
-      const response = await fetch('http://localhost:5000/api/groups')
+      const response = await sendRequest<GetAllGroupsType>('/groups', MethodType.GET)
 
-      if (!response.ok) {
-        console.error('An error occurred while fetching groups', response.statusText)
+      if (!response.success) {
+        console.error('An error occurred while fetching groups', response.message)
 
         return
+      } else {
+        if (response.data) setGroups(response.data)
       }
-
-      const { data } = await response.json()
-
-      setGroups(data)
     })()
   }, [])
 
   return (
-    <table>
-      <thead>
-        <th>
-          <td>Name</td>
-        </th>
-      </thead>
-
-      <tbody>
-        {groups.map(group => (
-          <tr key={group._id}>
-            <td>{group.name}</td>
-            <Link to={`${group._id}`}>Explore</Link>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <List
+      component='nav'
+      sx={{
+        maxWidth: 320,
+      }}
+    >
+      {groups.map((group, index) => (
+        <ListItemButton
+          onClick={() => {
+            navigate(`/groups/${group.id}`)
+          }}
+          key={index}
+        >
+          {group.name}
+          <ListItemDecorator>
+            <OpenInNewIcon />
+          </ListItemDecorator>
+        </ListItemButton>
+      ))}
+    </List>
   )
 }
 
