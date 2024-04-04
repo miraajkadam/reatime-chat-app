@@ -7,22 +7,13 @@ import {
   removeUsersFromGroupInDb,
 } from '@dtos/groups.dto'
 import { ApiResponse } from '@models/ApiResponse'
+import { GetAllGroupsType, GroupType } from '../types/groups.d'
 import { type Request, type Response } from 'express'
 
 /**
  * get all groups
  */
-export const getAllGroups = async (
-  _req: Request,
-  res: Response<
-    ApiResponse<
-      {
-        id: string
-        name: string
-      }[]
-    >
-  >
-) => {
+export const getAllGroups = async (_req: Request, res: Response<ApiResponse<GetAllGroupsType>>) => {
   try {
     const groups = await getAllGroupsFromDb()
 
@@ -40,27 +31,8 @@ export const getAllGroups = async (
  * get group details by id
  */
 export const getGroupById = async (
-  req: Request<
-    { id: string },
-    {
-      name: string
-      users: {
-        id: string
-        name: string
-        email: string
-      }[]
-    }
-  >,
-  res: Response<
-    ApiResponse<{
-      name: string
-      users: {
-        id: string
-        name: string
-        email: string
-      }[]
-    }>
-  >
+  req: Request<{ id: string }, ApiResponse<GroupType>>,
+  res: Response<ApiResponse<GroupType>>
 ) => {
   try {
     const { id } = req.params

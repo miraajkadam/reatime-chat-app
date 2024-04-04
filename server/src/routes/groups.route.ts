@@ -13,7 +13,7 @@ const groupsRoutes = Router()
 
 groupsRoutes.get('/', getAllGroups)
 
-// groupsRoutes.get('/:id', getGroupById)
+groupsRoutes.get('/:id', getGroupById)
 
 groupsRoutes.get('/:id/users', getUsersInGroupById)
 

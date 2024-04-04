@@ -39,7 +39,7 @@ app.get('/health', (_req: Request, res: Response) => {
 })
 
 app.use('/api/users', usersRouter)
-// app.use('/api/groups', groupsRoutes)
+app.use('/api/groups', groupsRoutes)
 app.use('/api/auth', authRouter)
 
 // app.use((err: Error, req: Request, res: Response<ApiResponse<null>>, next: NextFunction) => {
