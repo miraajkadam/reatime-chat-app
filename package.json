@@ -4,13 +4,16 @@
   "description": "Realtime Chat Application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "cd client && npm run start",
-    "server": "cd server && npm run dev",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run serve-server\" \"npm run serve-client\"",
+    "setup-server": "cd server && npm ci",
+    "build-server": "cd server && npm run build",
+    "serve-server": "cd server && npm run dev",
+    "setup-client": "cd client && npm ci",
+    "build-client": "cd client && npm run build",
+    "serve-client": "cd client && npm start"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Miraaj Kadam <miraajkadam@gmail.com> (https://www.miraajkadam.com/)",
+  "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
   }
